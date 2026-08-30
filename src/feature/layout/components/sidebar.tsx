@@ -1,0 +1,102 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import {
+  Compass,
+  ClipboardList,
+  Sparkles,
+  FolderOpen,
+  Settings,
+  CircleUserRound,
+  LayoutDashboard,
+} from "lucide-react";
+import { cn } from "../../dashboard/services/utils";
+
+const NAV_ITEMS = [
+  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/discover", label: "Discover", icon: Compass },
+  { href: "/applications", label: "Applications", icon: ClipboardList },
+  { href: "/ai", label: "AI assistant", icon: Sparkles },
+  { href: "/documents", label: "Documents", icon: FolderOpen },
+];
+
+export function Sidebar() {
+  const pathname = usePathname();
+
+  const renderNavItem = (href: string, label: string, Icon: any) => {
+    const active = pathname === href;
+
+    return (
+      <Link
+        key={href}
+        href={href}
+        aria-label={label}
+        title={label}
+        className={cn(
+          "flex justify-center items-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 focus-visible:ring-offset-2 transition-colors",
+          active
+            ? "bg-neutral-900 text-white hover:bg-neutral-800"
+            : "bg-white text-neutral-400 shadow-card hover:bg-primary-50 hover:text-primary-800",
+          "w-11 h-11 md:w-11 md:h-11",
+        )}
+      >
+        <Icon size={20} strokeWidth={1.75} />
+      </Link>
+    );
+  };
+
+  return (
+    <>
+      <aside className="hidden md:flex flex-col items-center rounded-lg">
+        <nav className="flex flex-col gap-2">
+          {NAV_ITEMS.map(({ href, label, icon: Icon }) =>
+            renderNavItem(href, label, Icon),
+          )}
+        </nav>
+
+        <div className="flex flex-col gap-2 mt-auto">
+          <Link
+            href="/settings"
+            aria-label="Settings"
+            title="Settings"
+            className="flex justify-center items-center bg-white hover:bg-primary-50 shadow-card rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 focus-visible:ring-offset-2 w-11 h-11 text-neutral-400 hover:text-primary-800 transition-colors"
+          >
+            <Settings size={20} strokeWidth={1.75} />
+          </Link>
+          <Link
+            href="/profile"
+            aria-label="Profile"
+            title="Profile"
+            className="flex justify-center items-center bg-white hover:bg-primary-50 shadow-card rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 focus-visible:ring-offset-2 w-11 h-11 text-neutral-400 hover:text-primary-800 transition-colors"
+          >
+            <CircleUserRound size={20} strokeWidth={1.75} />
+          </Link>
+        </div>
+      </aside>
+
+      <nav className="md:hidden right-3 bottom-3 left-3 z-50 fixed flex justify-between items-center gap-2 shadow-card backdrop-blur-sm p-2 border border-neutral-200 rounded-full">
+        {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
+          const active = pathname === href;
+
+          return (
+            <Link
+              key={href}
+              href={href}
+              aria-label={label}
+              title={label}
+              className={cn(
+                "flex flex-1 justify-center items-center rounded-full h-11 transition-colors",
+                active
+                  ? "bg-neutral-900 text-white"
+                  : "text-neutral-500 hover:bg-primary-50 hover:text-primary-800",
+              )}
+            >
+              <Icon size={18} strokeWidth={1.75} />
+            </Link>
+          );
+        })}
+      </nav>
+    </>
+  );
+}
