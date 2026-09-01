@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
@@ -10,8 +11,11 @@ import {
   Settings,
   CircleUserRound,
   LayoutDashboard,
+  LogOut,
+  Loader2,
 } from "lucide-react";
 import { cn } from "../../dashboard/services/utils";
+import { useAuth } from "@/src/shared/lib/auth/auth-context";
 
 const NAV_ITEMS = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
@@ -23,6 +27,13 @@ const NAV_ITEMS = [
 
 export function Sidebar() {
   const pathname = usePathname();
+  const { logout } = useAuth();
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  const handleLogout = async () => {
+    setIsLoggingOut(true);
+    await logout();
+  };
 
   const renderNavItem = (href: string, label: string, Icon: any) => {
     const active = pathname === href;
@@ -72,6 +83,20 @@ export function Sidebar() {
           >
             <CircleUserRound size={20} strokeWidth={1.75} />
           </Link>
+          <button
+            type="button"
+            onClick={handleLogout}
+            disabled={isLoggingOut}
+            aria-label="Logout"
+            title="Logout"
+            className="flex justify-center items-center bg-white hover:bg-danger-50 disabled:opacity-50 shadow-card rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 focus-visible:ring-offset-2 disabled:pointer-events-none w-11 h-11 text-neutral-400 hover:text-danger-800 transition-colors"
+          >
+            {isLoggingOut ? (
+              <Loader2 size={20} strokeWidth={1.75} className="animate-spin" />
+            ) : (
+              <LogOut size={20} strokeWidth={1.75} />
+            )}
+          </button>
         </div>
       </aside>
 
