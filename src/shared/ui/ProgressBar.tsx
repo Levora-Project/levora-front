@@ -1,4 +1,4 @@
-import { cn } from "@/src/feature/dashboard/services/utils";
+import { cn } from "@/feature/dashboard/services/utils";
 
 export interface ProgressBarProps {
   /** 0-100 */

@@ -1,8 +1,8 @@
-import { AiAssistantCard } from "@/src/feature/dashboard/components/AiAssistantCard";
-import { DeadlinesCard } from "@/src/feature/dashboard/components/DeadlinesCard";
-import { OpportunitiesSection } from "@/src/feature/dashboard/components/OpportunitiesSection";
-import { OverviewPanel } from "@/src/feature/dashboard/components/OverviewPanel";
-import { ProfileProgressCard } from "@/src/feature/dashboard/components/ProfileProgressCard";
+import { AiAssistantCard } from "@/feature/dashboard/components/AiAssistantCard";
+import { DeadlinesCard } from "@/feature/dashboard/components/DeadlinesCard";
+import { OpportunitiesSection } from "@/feature/dashboard/components/OpportunitiesSection";
+import { OverviewPanel } from "@/feature/dashboard/components/OverviewPanel";
+import { ProfileProgressCard } from "@/feature/dashboard/components/ProfileProgressCard";
 
 export default function DashboardPage() {
   return (
