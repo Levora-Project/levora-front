@@ -5,6 +5,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useRef,
   useState,
   type ReactNode,
 } from "react";
@@ -66,6 +67,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
+  const loggedInRef = useRef(false);
+
   useEffect(() => {
     async function hydrate() {
       const refreshToken = tokenStorage.getRefreshToken();
@@ -81,10 +84,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
         // Re-fetch rather than trusting any cached user, since it may be stale.
         const freshUser = await apiClient.get<AuthUser>("/auth/me");
-        setUser(freshUser);
+        // A login can complete while this was in flight - never let a stale
+        // hydrate response clobber a session established after it started.
+        if (!loggedInRef.current) setUser(freshUser);
       } catch {
-        tokenStorage.clearTokens();
-        setUser(null);
+        if (!loggedInRef.current) {
+          tokenStorage.clearTokens();
+          setUser(null);
+        }
       } finally {
         setIsLoading(false);
       }
@@ -98,6 +105,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       "/auth/login",
       { email, password },
     );
+    loggedInRef.current = true;
     tokenStorage.setTokens(accessToken, refreshToken);
     setUser(loggedInUser);
   }, []);

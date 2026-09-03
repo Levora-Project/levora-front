@@ -89,6 +89,15 @@ function redirectToLogin() {
   }
 }
 
+// Auth endpoints return their own 401s (wrong password, unverified email, expired
+// refresh token) that callers need to see as-is - they must never trigger the
+// access-token refresh/redirect flow below, which is only for authenticated requests.
+const AUTH_ENDPOINTS = ["/auth/login", "/auth/register", "/auth/refresh"];
+
+function isAuthEndpoint(url?: string): boolean {
+  return Boolean(url && AUTH_ENDPOINTS.some((endpoint) => url.includes(endpoint)));
+}
+
 instance.interceptors.response.use(
   (response) => response.data.data,
   async (error: AxiosError) => {
@@ -97,7 +106,8 @@ instance.interceptors.response.use(
     if (
       error.response?.status === 401 &&
       originalRequest &&
-      !originalRequest._retry
+      !originalRequest._retry &&
+      !isAuthEndpoint(originalRequest.url)
     ) {
       originalRequest._retry = true;
 
