@@ -78,3 +78,24 @@ export const DEADLINE_TONE_TEXT: Record<DeadlineTone, string> = {
   warning: "text-warning-600",
   info: "text-info-600",
 };
+
+// Index into the detail page's 5-step stage tracker (Not Started, In
+// Progress, Submitted, Under Review, Result) that a status has reached.
+// accepted/rejected both resolve to the final "Result" step.
+export const STATUS_STAGE_INDEX: Record<ApplicationStatus, number> = {
+  not_started: 0,
+  in_progress: 1,
+  submitted: 2,
+  accepted: 4,
+  rejected: 4,
+};
+
+// Longer-form status message for the detail page header pill — more
+// specific than the list's STATUS_LABEL badge text.
+export const STATUS_DETAIL_MESSAGE: Record<ApplicationStatus, string> = {
+  not_started: "Not started yet",
+  in_progress: "In progress",
+  submitted: "Applied successfully",
+  accepted: "Offer received",
+  rejected: "Not selected",
+};

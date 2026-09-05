@@ -1,10 +1,12 @@
 import { ApplicationSummary } from "../types/application";
+import type { ApplicationDetail } from "../types/detail";
 import {
   ApplicationStatus,
   DEADLINE_TONE_TEXT,
   DeadlineTone,
 } from "../types/status";
 import { ApplicationFilterState } from "../types/filters";
+import { APPLICATION_DETAILS } from "../mocks/applicationDetails";
 
 export function getDeadlineTone(daysLeft: number): DeadlineTone {
   if (daysLeft <= 7) return "danger";
@@ -94,4 +96,8 @@ export function filterApplications(
 
     return matchesSearch && matchesStatus && matchesType;
   });
+}
+
+export function getApplicationDetail(id: string): ApplicationDetail | undefined {
+  return APPLICATION_DETAILS.find((application) => application.id === id);
 }
