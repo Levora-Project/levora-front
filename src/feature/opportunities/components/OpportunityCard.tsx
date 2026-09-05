@@ -2,14 +2,8 @@ import Image from "next/image";
 import { Bookmark, Calendar } from "lucide-react";
 
 import MatchBadge from "./MatchBadge";
-import { OpportunitySummary } from "../mocks/dashboard";
-
-function formatDaysLeft(daysLeft: number): string {
-  if (daysLeft === 1) return "1 day left";
-  if (daysLeft < 30) return `${daysLeft} days left`;
-  const months = Math.round(daysLeft / 30);
-  return months === 1 ? "1 month left" : `${months} months left`;
-}
+import { OpportunitySummary } from "../types/opportunity";
+import { formatDaysLeft } from "../services/utils";
 
 export function OpportunityCard({
   opportunity,
