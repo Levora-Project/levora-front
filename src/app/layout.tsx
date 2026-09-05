@@ -10,7 +10,7 @@ const ibmPlexSans = IBM_Plex_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Levora - Discover your future",
+  title: "Afaq - Discover your future",
   description: "AI-powered opportunity discovery platform",
 };
 
